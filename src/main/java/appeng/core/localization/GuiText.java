@@ -22,205 +22,202 @@ package appeng.core.localization;
 import net.minecraft.util.text.translation.I18n;
 
 
-public enum GuiText
-{
-	inventory( "container" ), // mc's default Inventory localization.
+public enum GuiText {
+    inventory("container"), // mc's default Inventory localization.
 
-	Chest,
-	StoredEnergy,
-	Of,
-	Condenser,
-	Drive,
-	GrindStone,
-	SkyChest,
+    Chest,
+    StoredEnergy,
+    Of,
+    Condenser,
+    Drive,
+    GrindStone,
+    SkyChest,
 
-	VibrationChamber,
-	SpatialIOPort,
-	LevelEmitter,
-	FluidLevelEmitter,
-	Terminal,
+    VibrationChamber,
+    SpatialIOPort,
+    LevelEmitter,
+    FluidLevelEmitter,
+    Terminal,
 
-	Interface,
-	FluidInterface,
-	Config,
-	StoredItems,
-	StoredFluids,
-	Patterns,
-	ImportBus,
-	ImportBusFluids,
-	ExportBus,
-	ExportBusFluids,
+    Interface,
+    FluidInterface,
+    Config,
+    StoredItems,
+    StoredFluids,
+    Patterns,
+    ImportBus,
+    ImportBusFluids,
+    ExportBus,
+    ExportBusFluids,
 
-	CellWorkbench,
-	NetworkDetails,
-	StorageCells,
-	IOBuses,
-	IOBusesFluids,
+    CellWorkbench,
+    NetworkDetails,
+    StorageCells,
+    IOBuses,
+    IOBusesFluids,
 
-	IOPort,
-	BytesUsed,
-	Types,
-	QuantumLinkChamber,
-	PortableCell,
+    IOPort,
+    BytesUsed,
+    Types,
+    QuantumLinkChamber,
+    PortableCell,
 
-	NetworkTool,
-	PowerUsageRate,
-	PowerInputRate,
-	Installed,
-	EnergyDrain,
+    NetworkTool,
+    PowerUsageRate,
+    PowerInputRate,
+    Installed,
+    EnergyDrain,
 
-	StorageBus,
-	OreDictStorageBus,
-	StorageBusFluids,
-	Priority,
-	Security,
-	Encoded,
-	Blank,
-	Unlinked,
-	Linked,
+    StorageBus,
+    OreDictStorageBus,
+    StorageBusFluids,
+    Priority,
+    Security,
+    Encoded,
+    Blank,
+    Unlinked,
+    Linked,
 
-	SecurityCardEditor,
-	NoPermissions,
-	WirelessTerminal,
-	Wireless,
+    SecurityCardEditor,
+    NoPermissions,
+    WirelessTerminal,
+    Wireless,
 
-	CraftingTerminal,
-	FormationPlane,
-	FluidFormationPlane,
-	Inscriber,
-	QuartzCuttingKnife,
+    CraftingTerminal,
+    FormationPlane,
+    FluidFormationPlane,
+    Inscriber,
+    QuartzCuttingKnife,
 
-	// tunnel names
-	METunnel,
-	ItemTunnel,
-	RedstoneTunnel,
-	EUTunnel,
-	FluidTunnel,
-	OCTunnel,
-	LightTunnel,
-	FETunnel,
-	GTEUTunnel,
-	PressureTunnel,
+    Renamer,
 
-	// spatial
-	StoredSize,
-	CellId,
+    // tunnel names
+    METunnel,
+    ItemTunnel,
+    RedstoneTunnel,
+    EUTunnel,
+    FluidTunnel,
+    OCTunnel,
+    LightTunnel,
+    FETunnel,
+    GTEUTunnel,
+    PressureTunnel,
 
-	CopyMode,
-	CopyModeDesc,
-	PatternTerminal,
+    // spatial
+    StoredSize,
+    CellId,
 
-	// Pattern tooltips
-	CraftingPattern,
-	ProcessingPattern,
-	Crafts,
-	Creates,
-	And,
-	With,
-	Substitute,
-	Yes,
-	No,
+    CopyMode,
+    CopyModeDesc,
+    PatternTerminal,
 
-	MolecularAssembler,
+    // Pattern tooltips
+    CraftingPattern,
+    ProcessingPattern,
+    Crafts,
+    Creates,
+    And,
+    With,
+    Substitute,
+    Yes,
+    No,
 
-	StoredPower,
-	MaxPower,
-	RequiredPower,
-	Efficiency,
-	SCSSize,
-	SCSInvalid,
-	InWorldCrafting,
+    MolecularAssembler,
 
-	inWorldFluix,
-	inWorldPurificationCertus,
-	inWorldPurificationNether,
+    StoredPower,
+    MaxPower,
+    RequiredPower,
+    Efficiency,
+    SCSSize,
+    SCSInvalid,
+    InWorldCrafting,
 
-	inWorldPurificationFluix,
-	inWorldSingularity,
-	ChargedQuartz,
+    inWorldFluix,
+    inWorldPurificationCertus,
+    inWorldPurificationNether,
 
-	NoSecondOutput,
-	OfSecondOutput,
-	MultipleOutputs,
+    inWorldPurificationFluix,
+    inWorldSingularity,
+    ChargedQuartz,
 
-	Stores,
-	Next,
-	SelectAmount,
-	Lumen,
-	Empty,
+    NoSecondOutput,
+    OfSecondOutput,
+    MultipleOutputs,
 
-	ConfirmCrafting,
-	Stored,
-	Crafting,
-	Scheduled,
-	CraftingStatus,
-	Cancel,
-	ETA,
-	ETAFormat,
+    Stores,
+    Next,
+    SelectAmount,
+    Lumen,
+    Empty,
 
-	FromStorage,
-	ToCraft,
-	CraftingPlan,
-	CalculatingWait,
-	Start,
-	Bytes,
+    ConfirmCrafting,
+    Stored,
+    Crafting,
+    Scheduled,
+    CraftingStatus,
+    Cancel,
+    ETA,
+    ETAFormat,
 
-	CraftingCPU,
-	Automatic,
-	CoProcessors,
-	Simulation,
-	Missing,
+    FromStorage,
+    ToCraft,
+    CraftingPlan,
+    CalculatingWait,
+    Start,
+    Bytes,
 
-	InterfaceTerminal,
-	InterfaceConfigurationTerminal,
-	NoCraftingCPUs,
-	Clean,
-	InvalidPattern,
+    CraftingCPU,
+    Automatic,
+    CoProcessors,
+    Simulation,
+    Missing,
 
-	InterfaceTerminalHint,
-	Range,
-	TransparentFacades,
-	TransparentFacadesHint,
+    InterfaceTerminal,
+    InterfaceConfigurationTerminal,
+    NoCraftingCPUs,
+    Clean,
+    InvalidPattern,
 
-	NoCraftingJobs,
-	CPUs,
-	FacadeCrafting,
-	inWorldCraftingPresses,
-	ChargedQuartzFind,
+    InterfaceTerminalHint,
+    Range,
+    TransparentFacades,
+    TransparentFacadesHint,
 
-	Included,
-	Excluded,
-	Partitioned,
-	Precise,
-	Fuzzy,
+    NoCraftingJobs,
+    CPUs,
+    FacadeCrafting,
+    inWorldCraftingPresses,
+    ChargedQuartzFind,
 
-	// Used in a terminal to indicate that an item is craftable
-	SmallFontCraft,
-	LargeFontCraft,
+    Included,
+    Excluded,
+    Partitioned,
+    Precise,
+    Fuzzy,
 
-	// Used in a ME Interface when no appropriate TileEntity was detected near it
-	Nothing;
+    // Used in a terminal to indicate that an item is craftable
+    SmallFontCraft,
+    LargeFontCraft,
 
-	private final String root;
+    // Used in a ME Interface when no appropriate TileEntity was detected near it
+    Nothing;
 
-	GuiText()
-	{
-		this.root = "gui.appliedenergistics2";
-	}
+    private final String root;
 
-	GuiText( final String r )
-	{
-		this.root = r;
-	}
+    GuiText() {
+        this.root = "gui.appliedenergistics2";
+    }
 
-	public String getLocal()
-	{
-		return I18n.translateToLocal( this.getUnlocalized() );
-	}
+    GuiText(final String r) {
+        this.root = r;
+    }
 
-	public String getUnlocalized()
-	{
-		return this.root + '.' + this.toString();
-	}
+    public String getLocal() {
+        return I18n.translateToLocal(this.getUnlocalized());
+    }
+
+    public String getUnlocalized() {
+        return this.root + '.' + this;
+    }
 
 }

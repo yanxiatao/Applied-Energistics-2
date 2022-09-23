@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.lwjgl.input.Keyboard;
 
 
 /**
@@ -32,158 +33,179 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
  * You can initialize it over the full element span.
  * The mouse click area is increased to the full element
  * subtracted with the defined padding.
- *
+ * <p>
  * The rendering does pay attention to the size of the '_' caret.
  */
-public class MEGuiTextField extends GuiTextField
-{
-	private static final int PADDING = 2;
+public class MEGuiTextField extends GuiTextField {
+    private static final int PADDING = 2;
 
-	private final int _xPos;
-	private final int _yPos;
-	private final int _width;
-	private final int _height;
-	private final int _fontPad;
-	private int selectionColor = 0xFF00FF00;
+    private final int _xPos;
+    private final int _yPos;
+    private final int _width;
+    private final int _height;
+    private final int _fontPad;
+    private int selectionColor = 0xFF00FF00;
 
-	/**
-	 * Uses the values to instantiate a padded version of a text field.
-	 * Pays attention to the '_' caret.
-	 *
-	 * @param fontRenderer renderer for the strings
-	 * @param xPos absolute left position
-	 * @param yPos absolute top position
-	 * @param width absolute width
-	 * @param height absolute height
-	 */
-	public MEGuiTextField( final FontRenderer fontRenderer, final int xPos, final int yPos, final int width, final int height )
-	{
-		super( 0, fontRenderer, xPos + PADDING, yPos + PADDING, width - 2 * PADDING - fontRenderer.getCharWidth( '_' ), height - 2 * PADDING );
+    /**
+     * Uses the values to instantiate a padded version of a text field.
+     * Pays attention to the '_' caret.
+     *
+     * @param fontRenderer renderer for the strings
+     * @param xPos         absolute left position
+     * @param yPos         absolute top position
+     * @param width        absolute width
+     * @param height       absolute height
+     */
+    public MEGuiTextField(final FontRenderer fontRenderer, final int xPos, final int yPos, final int width, final int height) {
+        super(0, fontRenderer, xPos + PADDING, yPos + PADDING, width - 2 * PADDING - fontRenderer.getCharWidth('_'), height - 2 * PADDING);
 
-		this._fontPad = fontRenderer.getCharWidth( '_' );
-		this._xPos = xPos;
-		this._yPos = yPos;
-		this._width = width;
-		this._height = height;
-	}
+        this._fontPad = fontRenderer.getCharWidth('_');
+        this._xPos = xPos;
+        this._yPos = yPos;
+        this._width = width;
+        this._height = height;
+    }
 
-	@Override
-	public boolean mouseClicked( final int xPos, final int yPos, final int button )
-	{
-		super.mouseClicked( xPos, yPos, button );
+    public void onTextChange(final String oldText) {
+    }
 
-		final boolean requiresFocus = this.isMouseIn( xPos, yPos );
-		if( !this.isFocused() )
-		{
-			this.setFocused( requiresFocus );
-		}
+    @Override
+    public boolean mouseClicked(final int xPos, final int yPos, final int button) {
+        super.mouseClicked(xPos, yPos, button);
 
-		return true;
-	}
+        final boolean requiresFocus = this.isMouseIn(xPos, yPos);
+        if (!this.isFocused()) {
+            this.setFocused(requiresFocus);
+        }
 
-	/**
-	 * Checks if the mouse is within the element
-	 *
-	 * @param xCoord current x coord of the mouse
-	 * @param yCoord current y coord of the mouse
-	 *
-	 * @return true if mouse position is within the text field area
-	 */
-	public boolean isMouseIn( final int xCoord, final int yCoord )
-	{
-		final boolean withinXRange = this._xPos <= xCoord && xCoord < this._xPos + this._width;
-		final boolean withinYRange = this._yPos <= yCoord && yCoord < this._yPos + this._height;
+        return true;
+    }
 
-		return withinXRange && withinYRange;
-	}
+    /**
+     * Checks if the mouse is within the element
+     *
+     * @param xCoord current x coord of the mouse
+     * @param yCoord current y coord of the mouse
+     * @return true if mouse position is within the text field area
+     */
+    public boolean isMouseIn(final int xCoord, final int yCoord) {
+        final boolean withinXRange = this._xPos <= xCoord && xCoord < this._xPos + this._width;
+        final boolean withinYRange = this._yPos <= yCoord && yCoord < this._yPos + this._height;
 
-	public void selectAll()
-	{
-		this.setCursorPosition( 0 );
-		this.setSelectionPos( this.getMaxStringLength() );
-	}
+        return withinXRange && withinYRange;
+    }
 
-	public void setSelectionColor( int color )
-	{
-		this.selectionColor = color;
-	}
+    public boolean textboxKeyTyped(final char keyChar, final int keyID) {
+        if (!isFocused()) {
+            return false;
+        }
 
-	@Override
-	public void drawTextBox()
-	{
-		if( this.getVisible() )
-		{
-			if( this.isFocused() )
-			{
-				drawRect( this.x - PADDING + 1, this.y - PADDING + 1, this.x + this.width + this._fontPad + PADDING - 1, this.y + this.height + PADDING - 1,
-						0xFF606060 );
-			}
-			else
-			{
-				drawRect( this.x - PADDING + 1, this.y - PADDING + 1, this.x + this.width + this._fontPad + PADDING - 1, this.y + this.height + PADDING - 1,
-						0xFFA8A8A8 );
-			}
-			super.drawTextBox();
-		}
-	}
+        final String oldText = getText();
+        boolean handled = super.textboxKeyTyped(keyChar, keyID);
 
-	@Override
-	public void drawSelectionBox( int startX, int startY, int endX, int endY )
-	{
-		if( !this.isFocused() )
-		{
-			return;
-		}
+        if (!handled
+                && (keyID == Keyboard.KEY_RETURN
+                || keyID == Keyboard.KEY_NUMPADENTER
+                || keyID == Keyboard.KEY_ESCAPE)) {
+            setFocused(false);
+        }
 
-		if( startX < endX )
-		{
-			int i = startX;
-			startX = endX;
-			endX = i;
-		}
+        if (handled) {
+            onTextChange(oldText);
+        }
 
-		startX += 1;
-		endX -= 1;
+        return handled;
+    }
 
-		if( startY < endY )
-		{
-			int j = startY;
-			startY = endY;
-			endY = j;
-		}
+    public void selectAll() {
+        this.setCursorPosition(0);
+        this.setSelectionPos(this.getMaxStringLength());
+    }
 
-		startY -= PADDING;
+    public void setSelectionColor(int color) {
+        this.selectionColor = color;
+    }
 
-		if( endX > this.x + this.width )
-		{
-			endX = this.x + this.width;
-		}
+    @Override
+    public void drawTextBox() {
+        if (this.getVisible()) {
+            if (this.isFocused()) {
+                drawRect(this.x - PADDING + 1, this.y - PADDING + 1, this.x + this.width + this._fontPad + PADDING - 1, this.y + this.height + PADDING - 1,
+                        0xFF606060);
+            } else {
+                drawRect(this.x - PADDING + 1, this.y - PADDING + 1, this.x + this.width + this._fontPad + PADDING - 1, this.y + this.height + PADDING - 1,
+                        0xFFA8A8A8);
+            }
+            super.drawTextBox();
+        }
+    }
 
-		if( startX > this.x + this.width )
-		{
-			startX = this.x + this.width;
-		}
+    public void setText(String text, boolean ignoreTrigger) {
+        final String oldText = getText();
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferbuilder = tessellator.getBuffer();
+        super.setText(text);
+        super.setCursorPositionEnd();
 
-		float red = ( this.selectionColor >> 16 & 255 ) / 255.0F;
-		float blue = ( this.selectionColor >> 8 & 255 ) / 255.0F;
-		float green = ( this.selectionColor & 255 ) / 255.0F;
-		float alpha = ( this.selectionColor >> 24 & 255 ) / 255.0F;
+        if (!ignoreTrigger) {
+            onTextChange(oldText);
+        }
+    }
 
-		GlStateManager.color( red, green, blue, alpha );
-		GlStateManager.disableTexture2D();
-		GlStateManager.enableColorLogic();
-		GlStateManager.colorLogicOp( GlStateManager.LogicOp.OR_REVERSE );
-		bufferbuilder.begin( 7, DefaultVertexFormats.POSITION );
-		bufferbuilder.pos( startX, endY, 0.0D ).endVertex();
-		bufferbuilder.pos( endX, endY, 0.0D ).endVertex();
-		bufferbuilder.pos( endX, startY, 0.0D ).endVertex();
-		bufferbuilder.pos( startX, startY, 0.0D ).endVertex();
-		tessellator.draw();
-		GlStateManager.disableColorLogic();
-		GlStateManager.enableTexture2D();
-	}
+    public void setText(String text) {
+        setText(text, false);
+    }
+
+    @Override
+    public void drawSelectionBox(int startX, int startY, int endX, int endY) {
+        if (!this.isFocused()) {
+            return;
+        }
+
+        if (startX < endX) {
+            int i = startX;
+            startX = endX;
+            endX = i;
+        }
+
+        startX += 1;
+        endX -= 1;
+
+        if (startY < endY) {
+            int j = startY;
+            startY = endY;
+            endY = j;
+        }
+
+        startY -= PADDING;
+
+        if (endX > this.x + this.width) {
+            endX = this.x + this.width;
+        }
+
+        if (startX > this.x + this.width) {
+            startX = this.x + this.width;
+        }
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+
+        float red = (this.selectionColor >> 16 & 255) / 255.0F;
+        float blue = (this.selectionColor >> 8 & 255) / 255.0F;
+        float green = (this.selectionColor & 255) / 255.0F;
+        float alpha = (this.selectionColor >> 24 & 255) / 255.0F;
+
+        GlStateManager.color(red, green, blue, alpha);
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableColorLogic();
+        GlStateManager.colorLogicOp(GlStateManager.LogicOp.OR_REVERSE);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
+        bufferbuilder.pos(startX, endY, 0.0D).endVertex();
+        bufferbuilder.pos(endX, endY, 0.0D).endVertex();
+        bufferbuilder.pos(endX, startY, 0.0D).endVertex();
+        bufferbuilder.pos(startX, startY, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.disableColorLogic();
+        GlStateManager.enableTexture2D();
+    }
 
 }
